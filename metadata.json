@@ -1,0 +1,9 @@
+{
+  "name": "Compare File/Dir from Clip",
+  "description": "Compare the last two directories or files in the clipboard.",
+  "uuid": "compare@eexpss.gmail.com",
+  "url": "https://github.com/eexpress/gnome-shell-compare",
+  "shell-version": [
+    "40","41","42"
+  ]
+}
