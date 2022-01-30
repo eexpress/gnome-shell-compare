@@ -1,6 +1,6 @@
 {
-  "name": "Compare File/Dir from Clip",
-  "description": "Compare the last two directories or files in the clipboard. Each time you only copy one file or dir to clipboard.",
+  "name": "Copy 2 Compare",
+  "description": "Copy two file/dir names from anywhere such as nautilus or terminal, and then compare them. It needs to be copied twice. Only one file or directory can be copied each time, otherwise the copy is invalid. ",
   "uuid": "compare@eexpss.gmail.com",
   "url": "https://github.com/eexpress/gnome-shell-compare",
   "shell-version": [
