@@ -18,6 +18,7 @@ const Indicator = GObject.registerClass(
 class Indicator extends PanelMenu.Button {
 	_init() {
 		super._init(0.0, _('Compare Dir/File'));
+		lg("start");
 
 		this.add_child(new St.Icon({
 			icon_name: 'tools-check-spelling-symbolic',
@@ -71,6 +72,13 @@ class Indicator extends PanelMenu.Button {
 			item1.label.text = "2: ";
 		};
 	}
+
+	destroy(){
+		lg("stop");
+		this._selection.disconnect(this._ownerChangedId);
+		if (this._actor) this._actor.destroy();
+		super.destroy();
+	};
 });
 
 class Extension {
@@ -83,12 +91,9 @@ class Extension {
 	enable() {
 		this._indicator = new Indicator();
 		Main.panel.addToStatusArea(this._uuid, this._indicator);
-		lg("start");
 	}
 
 	disable() {
-		this._selection.disconnect(this._ownerChangedId);
-		lg("stop");
 		this._indicator.destroy();
 		this._indicator = null;
 	}
