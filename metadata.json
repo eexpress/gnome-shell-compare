@@ -1,6 +1,6 @@
 {
   "name": "Copy 2 Compare",
-  "description": "Copy two file/dir names from anywhere such as nautilus or terminal, and then compare them. It needs to be copied twice. Only one file or directory can be copied each time, otherwise the copy is invalid. Meld must be installed.",
+  "description": "Copy two Dirs/Files names from anywhere such as `nautilus` or `gnome-terminal`, and then compare them.  Dirs/Files copied to the `CLIPBOARD` can only be used for comparison. Dirs/Files selected to the `PRIMARY` with mouse can be opened by click the menu item. It needs to be copied twice. Only one file or directory can be copied each time, otherwise the copy is invalid. Meld must be installed.",
   "uuid": "compare@eexpss.gmail.com",
   "url": "https://github.com/eexpress/gnome-shell-compare",
   "shell-version": [

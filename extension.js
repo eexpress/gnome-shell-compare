@@ -3,6 +3,7 @@ const GETTEXT_DOMAIN = 'compare';
 function lg(s){log("==="+GETTEXT_DOMAIN+"===>"+s)};
 let file = [];
 let clip0 = "";
+let clip1 = "";
 
 const { GObject, GLib, St } = imports.gi;
 
@@ -31,9 +32,11 @@ class Indicator extends PanelMenu.Button {
 
 		let item0 = new PopupMenu.PopupMenuItem('1: ');
 		item0.reactive = false;
+		item0.connect('activate', actor => open(0));
 		this.menu.addMenuItem(item0);
 		let item1 = new PopupMenu.PopupMenuItem('2: ');
 		item1.reactive = false;
+		item1.connect('activate', actor => open(1));
 		this.menu.addMenuItem(item1);
 
 		this._selection = global.display.get_selection();
@@ -41,19 +44,36 @@ class Indicator extends PanelMenu.Button {
 		this._ownerChangedId = this._selection.connect('owner-changed', () => {
 			this._clipboard.get_text(St.ClipboardType.CLIPBOARD, (clipboard, text) => {
 				if(text && text != clip0){	//new clip
-					clip0 = text;
-					if(GLib.file_test(clip0, GLib.FileTest.IS_REGULAR|GLib.FileTest.IS_DIR)){
-						if(file.indexOf(clip0) == -1){	//new file
-							file.push(clip0);
-							file = file.slice(-2);
-							item0.label.text = "1: "+(file[0] || " ");
-							item1.label.text = "2: "+(file[1] || " ");
-							//~ lg(file);
-						}
-					}
+					clip0 = text; judge(text, false);
+				}
+			});
+			this._clipboard.get_text(St.ClipboardType.PRIMARY, (clipboard, text) => {
+				if(text && text != clip1){	//new clip
+					clip1 = text; judge(text, true);
 				}
 			});
 		});
+
+		function judge(text, isPRIMARY){
+			if(GLib.file_test(text, GLib.FileTest.IS_REGULAR|GLib.FileTest.IS_DIR)){
+				if(file.indexOf(text) == -1){	//new file
+					file.push(text);
+					if(file.length == 1) item0.reactive = isPRIMARY;
+					if(file.length == 2) item1.reactive = isPRIMARY;
+					if(file.length > 2){
+						item0.reactive = item1.reactive;
+						item1.reactive = isPRIMARY;	//file from select text, can be opened.
+					}
+					file = file.slice(-2);
+					item0.label.text = "1: "+(file[0] || "");
+					item1.label.text = "2: "+(file[1] || "");
+				}
+			}
+		};
+
+		function open(i){
+			GLib.spawn_command_line_async(`xdg-open "${file[i]}"`);
+		};
 
 		function comp(){
 			if(file.length < 2){
@@ -70,6 +90,10 @@ class Indicator extends PanelMenu.Button {
 			file = [];
 			item0.label.text = "1: ";
 			item1.label.text = "2: ";
+			item0.reactive = false;
+			item1.reactive = false;
+			clip0 = "";
+			clip1 = "";
 		};
 	}
 
