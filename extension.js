@@ -26,7 +26,7 @@ class Indicator extends PanelMenu.Button {
 			style_class: 'system-status-icon',
 		}));
 
-		let item = new PopupMenu.PopupMenuItem(_('Compare this two Dirs/Files below.'));
+		let item = new PopupMenu.PopupMenuItem(_('Compare this two Dirs/Files below. Or open active one.'));
 		item.connect('activate', () => { comp(); });
 		this.menu.addMenuItem(item);
 
