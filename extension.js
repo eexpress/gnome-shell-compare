@@ -51,7 +51,7 @@ class Indicator extends PanelMenu.Button {
 			});
 			this._clipboard.get_text(St.ClipboardType.PRIMARY, (clipboard, text) => {
 				if(text && text != clip1){	//new clip
-					clip1 = text; judge(text, true);
+					clip1 = text.trim(); judge(text.trim(), true);
 				}
 			});
 		});
