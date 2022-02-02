@@ -79,7 +79,7 @@ class Indicator extends PanelMenu.Button {
 					const last = head.pop();
 					const pango = ((i+1)+": ").bold()+head.join("/")+"/"+last.bold().italics().fontcolor("#879CFF").replace(/font/g, "span");
 					lg(pango);
-					a.label.clutter_text.set_ellipsize(Pango.EllipsizeMode.NONE);
+					a.label.clutter_text.set_ellipsize(Pango.EllipsizeMode.MIDDLE);
 					a.label.clutter_text.set_markup(pango);
 				}
 			}
