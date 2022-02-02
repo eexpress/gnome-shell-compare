@@ -26,18 +26,17 @@ class Indicator extends PanelMenu.Button {
 			style_class: 'system-status-icon',
 		}));
 
-		let item = new PopupMenu.PopupMenuItem(_('Compare this two Dirs/Files below. Or open active one.'));
+		let item = new PopupMenu.PopupMenuItem(_('Compare two Dirs/Files below. Or open active one.'));
 		item.connect('activate', () => { comp(); });
 		this.menu.addMenuItem(item);
 
-		let item0 = new PopupMenu.PopupMenuItem('1: ');
-		item0.reactive = false;
+		let item0 = new PopupMenu.PopupMenuItem('');
 		item0.connect('activate', actor => open(0));
 		this.menu.addMenuItem(item0);
-		let item1 = new PopupMenu.PopupMenuItem('2: ');
-		item1.reactive = false;
+		let item1 = new PopupMenu.PopupMenuItem('');
 		item1.connect('activate', actor => open(1));
 		this.menu.addMenuItem(item1);
+		markup();
 
 		this._selection = global.display.get_selection();
 		this._clipboard = St.Clipboard.get_default();
@@ -65,8 +64,24 @@ class Indicator extends PanelMenu.Button {
 						item1.reactive = isPRIMARY;	//file from select text, can be opened.
 					}
 					file = file.slice(-2);
-					item0.label.text = "1: "+(file[0] || "");
-					item1.label.text = "2: "+(file[1] || "");
+					markup();
+				}
+			}
+		};
+
+		function markup(){
+			for(let i=0; i<2; i++){	// 强制循环刷新
+				const a = (i == 0) ? item0 : item1;
+				if(!file[i]) {a.label.text = (i+1)+":"; a.reactive = false;}
+				else {
+					const head = file[i].split("/");
+					const last = head.pop();
+					const text = ((i+1)+": ").bold()+head.join("/")+"/"+last.bold().fontcolor("#4A65E3").replace(/font/g, "span");
+					//~ lg(text);
+					a.label.text = (i+1)+": "+file[i];
+					//~ a.label.clutter_text.set_markup = '<b>1: </b>';
+					//~ a.label_actor.clutter_text.set_markup = '<b>1: </b>/usr/share/icons/Adwaita/16x16/actions/<span color="#4A65E3"><b>tools-check-spelling-symbolic.symbolic.png</b></span>';
+					//~ a.label.clutter_text.set_markup = '<b>1: </b>/usr/share/icons/Adwaita/16x16/actions/<span color="#4A65E3"><b>tools-check-spelling-symbolic.symbolic.png</b></span>';
 				}
 			}
 		};
@@ -83,17 +98,12 @@ class Indicator extends PanelMenu.Button {
 			const f0 = GLib.file_test(file[0], GLib.FileTest.IS_DIR)?1:0;
 			const f1 = GLib.file_test(file[1], GLib.FileTest.IS_DIR)?1:0;
 			if(f0 != f1){
-				Main.notify(_("Different file types."));
+				Main.notify(_("Different file types cannot be compared."));
 				return 1;
 			}
+			//~ Maybe need test mimetype is all `text/dir`, but mimetype not in GLib.
 			GLib.spawn_command_line_async('meld "%s" "%s"'.format(file[0], file[1]));
-			file = [];
-			item0.label.text = "1: ";
-			item1.label.text = "2: ";
-			item0.reactive = false;
-			item1.reactive = false;
-			clip0 = "";
-			clip1 = "";
+			file = []; markup(); clip0 = ""; clip1 = "";
 		};
 	}
 
