@@ -22,6 +22,10 @@ Meld must be installed.
 
 需要安装了 meld 软件。
 
+Add the hotkey `ctrl-o` to open the last file selected by the mouse. Partly replace the previous script `o`.
+
+增加热键 `Ctrl-O` 打开最后一个鼠标选中的文件。部分代替之前的脚本 `o`。
+
 ![](screenshot.png)
 
 ```

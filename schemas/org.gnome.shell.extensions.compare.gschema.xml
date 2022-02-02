@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+
+  <schema id="org.gnome.shell.extensions.compare"
+    path="/org/gnome/shell/extensions/compare/">
+
+    <key type="as" name="open-last-file-in-termianl">
+      <default><![CDATA[['<Ctrl>o']]]></default>
+      <summary>Open last file in terminal shortcut key</summary>
+      <description>
+        Open last file in terminal
+      </description>
+    </key>
+
+  </schema>
+
+</schemalist>
+

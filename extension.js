@@ -6,12 +6,14 @@ let clip0 = "";
 let clip1 = "";
 
 const { GObject, GLib, Pango, St } = imports.gi;
+const { Meta, Gio, Shell } = imports.gi;	//for Keybinding
 
 const Gettext = imports.gettext.domain(GETTEXT_DOMAIN);
 const _ = Gettext.gettext;
 
 const ExtensionUtils = imports.misc.extensionUtils;
 const Main = imports.ui.main;
+const Me = imports.misc.extensionUtils.getCurrentExtension();
 const PanelMenu = imports.ui.panelMenu;
 const PopupMenu = imports.ui.popupMenu;
 
@@ -54,6 +56,11 @@ class Indicator extends PanelMenu.Button {
 			});
 		});
 
+		Main.wm.addKeybinding("open-last-file-in-termianl", getSettings(), Meta.KeyBindingFlags.NONE, Shell.ActionMode.ALL, () => {
+			//~ lg('Ctrl-O');
+			if(file[1]) open(1); else if(file[0]) open(0);
+		});
+
 		function judge(text, isPRIMARY){
 			if(GLib.file_test(text, GLib.FileTest.IS_REGULAR|GLib.FileTest.IS_DIR)){
 				if(file.indexOf(text) == -1){	//new file
@@ -78,7 +85,7 @@ class Indicator extends PanelMenu.Button {
 					const head = file[i].split("/");
 					const last = head.pop();
 					const pango = ((i+1)+": ").bold()+head.join("/")+"/"+last.bold().italics().fontcolor("#879CFF").replace(/font/g, "span");
-					lg(pango);
+					//~ lg(pango);
 					a.label.clutter_text.set_ellipsize(Pango.EllipsizeMode.MIDDLE);
 					a.label.clutter_text.set_markup(pango);
 				}
@@ -114,6 +121,19 @@ class Indicator extends PanelMenu.Button {
 	};
 });
 
+function getSettings() {
+	let GioSSS = Gio.SettingsSchemaSource;
+	let schemaSource = GioSSS.new_from_directory(
+		Me.dir.get_child("schemas").get_path(),
+		GioSSS.get_default(), false
+	);
+	let schemaObj = schemaSource.lookup('org.gnome.shell.extensions.compare', true);
+	if (!schemaObj) {
+	throw new Error('cannot find schemas');
+	}
+	return new Gio.Settings({ settings_schema : schemaObj });
+}
+
 class Extension {
 	constructor(uuid) {
 		this._uuid = uuid;
@@ -129,6 +149,7 @@ class Extension {
 	disable() {
 		this._indicator.destroy();
 		this._indicator = null;
+		Main.wm.removeKeybinding("open-last-file-in-termianl");
 	}
 }
 
