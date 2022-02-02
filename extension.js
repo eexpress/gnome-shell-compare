@@ -5,7 +5,7 @@ let file = [];
 let clip0 = "";
 let clip1 = "";
 
-const { GObject, GLib, St } = imports.gi;
+const { GObject, GLib, Pango, St } = imports.gi;
 
 const Gettext = imports.gettext.domain(GETTEXT_DOMAIN);
 const _ = Gettext.gettext;
@@ -26,7 +26,8 @@ class Indicator extends PanelMenu.Button {
 			style_class: 'system-status-icon',
 		}));
 
-		let item = new PopupMenu.PopupMenuItem(_('Compare two Dirs/Files below. Or open active one.'));
+		let item = new PopupMenu.PopupMenuItem('');
+		item.label.clutter_text.set_markup(_('Compare two Dirs/Files below. Or open active one.').bold());
 		item.connect('activate', () => { comp(); });
 		this.menu.addMenuItem(item);
 
@@ -76,12 +77,10 @@ class Indicator extends PanelMenu.Button {
 				else {
 					const head = file[i].split("/");
 					const last = head.pop();
-					const text = ((i+1)+": ").bold()+head.join("/")+"/"+last.bold().fontcolor("#4A65E3").replace(/font/g, "span");
-					//~ lg(text);
-					a.label.text = (i+1)+": "+file[i];
-					//~ a.label.clutter_text.set_markup = '<b>1: </b>';
-					//~ a.label_actor.clutter_text.set_markup = '<b>1: </b>/usr/share/icons/Adwaita/16x16/actions/<span color="#4A65E3"><b>tools-check-spelling-symbolic.symbolic.png</b></span>';
-					//~ a.label.clutter_text.set_markup = '<b>1: </b>/usr/share/icons/Adwaita/16x16/actions/<span color="#4A65E3"><b>tools-check-spelling-symbolic.symbolic.png</b></span>';
+					const pango = ((i+1)+": ").bold()+head.join("/")+"/"+last.bold().italics().fontcolor("#879CFF").replace(/font/g, "span");
+					lg(pango);
+					a.label.clutter_text.set_ellipsize(Pango.EllipsizeMode.NONE);
+					a.label.clutter_text.set_markup(pango);
 				}
 			}
 		};
