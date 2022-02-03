@@ -14,9 +14,9 @@ In `nautilus`, press ctrl-c or copy in the context-menu.
 
 在 `nautilus`中，按ctrl-c或在上下文菜单，进行复制。
 
-It needs to be copied twice. Only one file or directory can be copied each time, otherwise the copy is invalid.
+Only one file or directory can be copied each time, otherwise the copy is invalid.
 
-需要复制两次。每次只能复制一个文件或目录，否则复制无效。
+每次只能复制一个文件或目录，否则复制无效。
 
 Meld must be installed.
 
