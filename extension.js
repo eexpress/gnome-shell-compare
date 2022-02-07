@@ -63,6 +63,7 @@ class Indicator extends PanelMenu.Button {
 
 		function judge(text, isPRIMARY){
 			if(GLib.file_test(text, GLib.FileTest.IS_REGULAR|GLib.FileTest.IS_DIR)){
+			//~ 当前目录是~，所以带./前缀的文件，都认为是~/的文件。
 				if(file.indexOf(text) == -1){	//new file
 					file.push(text);
 					if(file.length == 1) item0.reactive = isPRIMARY;
