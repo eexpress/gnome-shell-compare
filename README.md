@@ -1,5 +1,8 @@
 # gnome-shell-compare
 
+A context menu is added for more convenient opening of files selected from the terminal.
+
+增加了一个上下文菜单，用于更方便的打开从终端选择的文件。
 
 Copy two Dirs/Files names from anywhere such as `nautilus` or `gnome-terminal`, and then compare them.  Dirs/Files copied to the `CLIPBOARD` can only be used for comparison. Dirs/Files selected to the `PRIMARY` with mouse can be opened by click the menu item.
 

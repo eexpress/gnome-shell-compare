@@ -1,6 +1,6 @@
 {
-  "name": "Copy 2 Compare",
-  "description": "Copy two Dirs/Files names from anywhere such as `nautilus` or `gnome-terminal`, and then compare them.  Dirs/Files copied to the `CLIPBOARD` can only be used for comparison. Dirs/Files selected to the `PRIMARY` with mouse can be opened by click the menu item. Only one file or directory can be copied each time. Meld must be installed. The hotkey `ctrl-o` can open the last file selected by the mouse.",
+  "name": "Compare or Open",
+  "description": "Copy/Select two Dirs/Files from anywhere such as `nautilus` or `gnome-terminal`, and then compare them (use `meld`) or open with Ctrl-O or open with context-menu.",
   "uuid": "compare@eexpss.gmail.com",
   "url": "https://github.com/eexpress/gnome-shell-compare",
   "shell-version": [

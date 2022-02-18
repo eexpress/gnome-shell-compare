@@ -1,6 +1,6 @@
-
 const GETTEXT_DOMAIN = 'compare';
-function lg(s){log("==="+GETTEXT_DOMAIN+"===>"+s)};
+const debug = false;
+function lg(s){ if(debug) log("==="+GETTEXT_DOMAIN+"===>"+s); }
 let file = [];
 let clip0 = "";
 let clip1 = "";
@@ -22,21 +22,19 @@ class Indicator extends PanelMenu.Button {
 	_init() {
 		super._init(0.0, _('Compare Dir/File'));
 		lg("start");
+		const that = this;
 
-		this.add_child(new St.Icon({
-			icon_name: 'tools-check-spelling-symbolic',
-			style_class: 'system-status-icon',
-		}));
+		this.add_child(new St.Icon({ icon_name: 'tools-check-spelling-symbolic', icon_size: 30 }));
 
-		let item = new PopupMenu.PopupMenuItem('');
+		const item = new PopupMenu.PopupMenuItem('');
 		item.label.clutter_text.set_markup(_('Compare two Dirs/Files below. Or open active one.').bold());
 		item.connect('activate', () => { comp(); });
 		this.menu.addMenuItem(item);
 
-		let item0 = new PopupMenu.PopupMenuItem('');
+		const item0 = new PopupMenu.PopupMenuItem('');
 		item0.connect('activate', actor => open(0));
 		this.menu.addMenuItem(item0);
-		let item1 = new PopupMenu.PopupMenuItem('');
+		const item1 = new PopupMenu.PopupMenuItem('');
 		item1.connect('activate', actor => open(1));
 		this.menu.addMenuItem(item1);
 		markup();
@@ -74,9 +72,44 @@ class Indicator extends PanelMenu.Button {
 					}
 					file = file.slice(-2);
 					markup();
+					if(isPRIMARY) get_context_menu(text);
 				}
 			}
-		};
+		}
+
+		function get_context_menu(text){
+			try {
+				const f0 = Gio.File.new_for_path(text);
+				const f1 = f0.query_info(Gio.FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE, Gio.FileQueryInfoFlags.NONE, null);
+				const contentType = f1.get_content_type();
+				lg(contentType);
+				const apps = Gio.AppInfo.get_recommended_for_type(contentType);
+				if(apps) create_context_menu(text, apps);
+			} catch (e) { lg(e); }
+		}
+
+		function create_context_menu(text, apps){
+			that.menu._getMenuItems().forEach((j)=>{if(j.cmd) j.destroy();});
+			const cm = new PopupMenu.PopupMenuItem('');
+			cm.label.clutter_text.set_markup(_('Press Ctrl-O to open last file above or select with:').bold());
+			cm.reactive = false;
+			cm.cmd = '--xxx--';
+			that.menu.addMenuItem(cm);
+			apps.forEach((i) => {
+				const ca = new PopupMenu.PopupMenuItem(i.get_display_name());
+				lg(i.get_display_name());
+				ca.cmd = i.get_commandline();
+				ca.connect('activate', (actor) => {
+					let cmd = actor.cmd;
+					const re = /\%[uUfF]/;
+					cmd = cmd.replace(re, `"${text}"`);
+					lg(cmd);
+					GLib.spawn_command_line_async(cmd);
+				});
+				that.menu.addMenuItem(ca);
+			});
+			that.menu.open();
+		}
 
 		function markup(){
 			for(let i=0; i<2; i++){	// 强制循环刷新
@@ -94,7 +127,8 @@ class Indicator extends PanelMenu.Button {
 		};
 
 		function open(i){
-			GLib.spawn_command_line_async(`xdg-open "${file[i]}"`);
+			//~ GLib.spawn_command_line_async(`xdg-open "${file[i]}"`);
+			Gio.app_info_launch_default_for_uri(`file://${file[i]}`, global.create_app_launch_context(0, -1));
 		};
 
 		function comp(){
