@@ -7,12 +7,11 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const PanelMenu = imports.ui.panelMenu;
 const PopupMenu = imports.ui.popupMenu;
 
-const MyDomain = Me.metadata['gettext-domain'];
-const Gettext = imports.gettext.domain(MyDomain);
+const Gettext = imports.gettext.domain(Me.metadata['gettext-domain']);
 const _ = Gettext.gettext;
 
 const debug = false;
-function lg(s){ if(debug) log("==="+MyDomain+"===>"+s); }
+function lg(s){ if(debug) log("==="+Me.metadata['gettext-domain']+"===>"+s); }
 let file = [];
 let clip0 = "";
 let clip1 = "";
@@ -159,7 +158,7 @@ class Extension {
 	constructor(uuid) {
 		this._uuid = uuid;
 
-		ExtensionUtils.initTranslations(MyDomain);
+		ExtensionUtils.initTranslations();
 	}
 
 	enable() {
