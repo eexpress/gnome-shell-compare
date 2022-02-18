@@ -1,15 +1,5 @@
-const GETTEXT_DOMAIN = 'compare';
-const debug = false;
-function lg(s){ if(debug) log("==="+GETTEXT_DOMAIN+"===>"+s); }
-let file = [];
-let clip0 = "";
-let clip1 = "";
-
 const { GObject, GLib, Pango, St } = imports.gi;
 const { Meta, Gio, Shell } = imports.gi;	//for Keybinding
-
-const Gettext = imports.gettext.domain(GETTEXT_DOMAIN);
-const _ = Gettext.gettext;
 
 const ExtensionUtils = imports.misc.extensionUtils;
 const Main = imports.ui.main;
@@ -17,10 +7,20 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const PanelMenu = imports.ui.panelMenu;
 const PopupMenu = imports.ui.popupMenu;
 
+const MyDomain = Me.metadata['gettext-domain'];
+const Gettext = imports.gettext.domain(MyDomain);
+const _ = Gettext.gettext;
+
+const debug = false;
+function lg(s){ if(debug) log("==="+MyDomain+"===>"+s); }
+let file = [];
+let clip0 = "";
+let clip1 = "";
+
 const Indicator = GObject.registerClass(
 class Indicator extends PanelMenu.Button {
 	_init() {
-		super._init(0.0, _('Compare Dir/File'));
+		super._init(0.0, _(Me.metadata['name']));
 		lg("start");
 		const that = this;
 
@@ -54,8 +54,7 @@ class Indicator extends PanelMenu.Button {
 			});
 		});
 
-		Main.wm.addKeybinding("open-last-file-in-termianl", getSettings(), Meta.KeyBindingFlags.NONE, Shell.ActionMode.ALL, () => {
-			//~ lg('Ctrl-O');
+		Main.wm.addKeybinding("open-last-file-in-termianl", ExtensionUtils.getSettings(), Meta.KeyBindingFlags.NONE, Shell.ActionMode.ALL, () => {
 			if(file[1]) open(1); else if(file[0]) open(0);
 		});
 
@@ -96,7 +95,7 @@ class Indicator extends PanelMenu.Button {
 			cm.cmd = '--xxx--';
 			that.menu.addMenuItem(cm);
 			apps.forEach((i) => {
-				const ca = new PopupMenu.PopupMenuItem(i.get_display_name());
+				const ca = new PopupMenu.PopupImageMenuItem(i.get_display_name(), i.get_icon());
 				lg(i.get_display_name());
 				ca.cmd = i.get_commandline();
 				ca.connect('activate', (actor) => {
@@ -156,24 +155,11 @@ class Indicator extends PanelMenu.Button {
 	};
 });
 
-function getSettings() {
-	let GioSSS = Gio.SettingsSchemaSource;
-	let schemaSource = GioSSS.new_from_directory(
-		Me.dir.get_child("schemas").get_path(),
-		GioSSS.get_default(), false
-	);
-	let schemaObj = schemaSource.lookup('org.gnome.shell.extensions.compare', true);
-	if (!schemaObj) {
-	throw new Error('cannot find schemas');
-	}
-	return new Gio.Settings({ settings_schema : schemaObj });
-}
-
 class Extension {
 	constructor(uuid) {
 		this._uuid = uuid;
 
-		ExtensionUtils.initTranslations(GETTEXT_DOMAIN);
+		ExtensionUtils.initTranslations(MyDomain);
 	}
 
 	enable() {

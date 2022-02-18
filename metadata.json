@@ -3,6 +3,8 @@
   "description": "Copy/Select two Dirs/Files from anywhere such as `nautilus` or `gnome-terminal`, and then compare them (use `meld`) or open with Ctrl-O or open with context-menu.",
   "uuid": "compare@eexpss.gmail.com",
   "url": "https://github.com/eexpress/gnome-shell-compare",
+  "settings-schema": "org.gnome.shell.extensions.compare",
+  "gettext-domain": "compare",
   "shell-version": [
     "40","41","42"
   ]
