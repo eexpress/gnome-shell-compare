@@ -24,7 +24,7 @@ class Indicator extends PanelMenu.Button {
 		lg("start");
 		const that = this;
 
-		this.add_child(new St.Icon({ icon_name: 'tools-check-spelling-symbolic', icon_size: 30 }));
+		this.add_child(new St.Icon({ gicon: Gio.icon_new_for_string(Me.path+"/compare-open-symbolic.svg") }));
 
 		const item = new PopupMenu.PopupMenuItem('');
 		item.label.clutter_text.set_markup(_('Compare two Dirs/Files below. Or open active one.').bold());
@@ -71,6 +71,7 @@ class Indicator extends PanelMenu.Button {
 					}
 					file = file.slice(-2);
 					markup();
+					that.menu._getMenuItems().forEach((j)=>{if(j.cmd) j.destroy();});
 					if(isPRIMARY) get_context_menu(text);
 				}
 			}
@@ -88,7 +89,6 @@ class Indicator extends PanelMenu.Button {
 		}
 
 		function create_context_menu(text, apps){
-			that.menu._getMenuItems().forEach((j)=>{if(j.cmd) j.destroy();});
 			const cm = new PopupMenu.PopupMenuItem('');
 			cm.label.clutter_text.set_markup(_('Press Ctrl-O to open last file above or select with:').bold());
 			cm.reactive = false;

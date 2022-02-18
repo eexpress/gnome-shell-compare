@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="16"
+   height="16"
+   version="1.1"
+   id="svg4"
+   sodipodi:docname="compare-copy-symbolic.svg"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   inkscape:export-filename="/home/eexpss/project/gnome-shell-compare/compare-copy-symbolic.png"
+   inkscape:export-xdpi="384"
+   inkscape:export-ydpi="384"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs8" />
+  <sodipodi:namedview
+     id="namedview6"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="33.304047"
+     inkscape:cx="8.4674394"
+     inkscape:cy="7.7618195"
+     inkscape:window-width="1920"
+     inkscape:window-height="1008"
+     inkscape:window-x="0"
+     inkscape:window-y="34"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg4" />
+  <path
+     d="m 3.1958788,10.910017 -2.26178009,2.26082 c -0.4535088,0.453509 0.22675469,1.133772 0.68026339,0.680263 0,0 0.8357561,-1.582364 1.5815167,-1.582477 0.9058737,-1.38e-4 1.9216484,1.921648 1.9216484,1.921648 0,0 1.0157747,-1.921648 1.9216484,-1.921648 0.9058737,0 1.9216484,1.921648 1.9216484,1.921648 0,0 1.0157751,-1.921648 1.921649,-1.921648 0.905874,0 1.921648,1.921648 1.921648,1.921648 l 2.26178,-2.260819 c 0.453509,-0.453509 -0.226754,-1.133773 -0.680263,-0.680264 0,0 -0.835756,1.582364 -1.581517,1.582478 -0.905873,1.37e-4 -1.921648,-1.921649 -1.921648,-1.921649 0,0 -1.0157749,1.921649 -1.921649,1.921649 -0.9058737,0 -1.9216484,-1.921649 -1.9216484,-1.921649 0,0 -1.0157747,1.921649 -1.9216484,1.921649 -0.9058737,0 -1.9216484,-1.921649 -1.9216484,-1.921649 z"
+     fill="#474747"
+     font-family="sans-serif"
+     font-weight="400"
+     overflow="visible"
+     style="font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-feature-settings:normal;text-indent:0;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;text-transform:none;text-orientation:mixed;shape-padding:0;isolation:auto;mix-blend-mode:normal;fill:#000000;fill-opacity:1;stroke-width:0.960824"
+     id="path2"
+     sodipodi:nodetypes="cccscscscccscscsc" />
+  <path
+     id="path58445"
+     style="font-weight:bold;font-size:8px;line-height:1.25;font-family:Suruma;-inkscape-font-specification:'Suruma Bold';letter-spacing:0px;word-spacing:0px;stroke-width:1.47302"
+     d="m 4.5660268,1.517 c -1.8353791,0 -3.2087366,1.4668802 -3.2087366,4.3994854 0,2.9067292 1.0584418,4.3604166 3.1764623,4.3604166 1.7244693,0 2.6873401,-1.4805484 2.8876933,-3.671377 H 6.0408795 c -0.2361308,1.845816 -0.097498,3.1532905 -1.507127,3.1532905 -1.5169606,0 -1.4176219,-1.2806133 -1.4176219,-3.8423301 0,-2.5875928 -0.027557,-3.8813993 1.4393146,-3.8813993 1.2951409,0 1.209152,1.3315263 1.4739044,2.8409553 H 7.3783468 C 7.0992834,3.0215999 6.4014059,1.517 4.5660268,1.517 Z M 11.25052,1.530589 c -2.2611302,0 -3.3921901,1.4619165 -3.3921901,4.3858963 0,2.9067292 1.1094439,4.3604167 3.3276411,4.3604167 2.304062,0 3.456739,-1.4108436 3.456739,-4.2313199 0,-3.0102328 -1.131059,-4.5149931 -3.39219,-4.5149931 z m 0,0.504497 c 1.660068,0 1.721746,1.3366503 1.721746,4.0104961 0,2.4668385 -0.148157,3.6996446 -1.808226,3.6996446 -1.6600712,0 -1.5450512,-1.2378498 -1.5450512,-3.7133136 0,-2.6652205 -0.02854,-3.9968271 1.6315312,-3.9968271 z"
+     sodipodi:nodetypes="zssccssscczzssszsszss" />
+</svg>
