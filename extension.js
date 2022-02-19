@@ -63,6 +63,8 @@ class Indicator extends PanelMenu.Button {
 			else if(item0.file) this.default_open(item0.file);
 		});
 
+		// 大量使用 item0, item1 的函数，搬出init麻烦。所有 item0 都要加 this，包括init内。
+		// init 内函数，只好使用 that 调用 init 外部的函数。
 		function judge(text, isPRIMARY){
 			if(GLib.file_test(text, GLib.FileTest.IS_REGULAR|GLib.FileTest.IS_DIR)){
 			//~ 当前目录是~，所以带./前缀的文件，都认为是~/的文件。
