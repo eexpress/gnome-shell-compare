@@ -25,8 +25,11 @@ class Indicator extends PanelMenu.Button {
 
 		this.add_child(new St.Icon({ gicon: Gio.icon_new_for_string(Me.path+"/compare-open-symbolic.svg") }));
 
+		const mauto = new PopupMenu.PopupSwitchMenuItem('', false);
+		mauto.label.clutter_text.set_markup(_('▶ CLIPBOARD treat as PRIMARY').bold());
+		this.menu.addMenuItem(mauto);
 		const item = new PopupMenu.PopupMenuItem('');
-		item.label.clutter_text.set_markup(_('Compare two Dirs/Files below.').bold());
+		item.label.clutter_text.set_markup(_('▶ Compare two Dirs/Files below.').bold());
 		item.connect('activate', () => {
 			GLib.spawn_command_line_async('meld "%s" "%s"'.format(item0.file, item1.file));
 		});
@@ -48,7 +51,8 @@ class Indicator extends PanelMenu.Button {
 		this._ownerChangedId = this._selection.connect('owner-changed', () => {
 			this._clipboard.get_text(St.ClipboardType.CLIPBOARD, (clipboard, text) => {
 				if(text && text != clip0){	//new clip
-					clip0 = text; judge(text, false);
+					//~ clip0 = text; judge(text, false);
+					clip0 = text; judge(text, mauto.state);
 				}
 			});
 			this._clipboard.get_text(St.ClipboardType.PRIMARY, (clipboard, text) => {
@@ -109,7 +113,7 @@ class Indicator extends PanelMenu.Button {
 
 	create_context_menu(text, apps){
 		const cm = new PopupMenu.PopupMenuItem('');
-		cm.label.clutter_text.set_markup(_('Ctrl-O or those App to open the last file:').bold());
+		cm.label.clutter_text.set_markup(_('▶ Use Ctrl-O or those App to open the last file:').bold());
 		cm.reactive = false;
 		cm.cmd = '--xxx--';
 		this.menu.addMenuItem(cm);

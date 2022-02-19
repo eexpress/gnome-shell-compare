@@ -7,5 +7,6 @@
   "gettext-domain": "compare",
   "shell-version": [
     "40","41","42"
-  ]
+  ],
+  "version": 9
 }
