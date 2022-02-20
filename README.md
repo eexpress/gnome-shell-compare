@@ -1,5 +1,9 @@
 # gnome-shell-compare
 
+[<img alt="" height="80" src="https://raw.githubusercontent.com/andyholmes/gnome-shell-extensions-badge/master/get-it-on-ego.svg?sanitize=true">](https://extensions.gnome.org/extension/4789/compare-filedir-from-clip/)
+
+---
+
 A context menu is added for more convenient opening of files selected from the terminal.
 
 增加了一个上下文菜单，用于更方便的打开从终端选择的文件。
