@@ -11,8 +11,8 @@ const ByteArray = imports.byteArray;
 const Gettext = imports.gettext.domain(Me.metadata['gettext-domain']);
 const _ = Gettext.gettext;
 
-//~ const debug = false;
-const debug = true;
+const debug = false;
+//~ const debug = true;
 function lg(s) {
 	if (debug) log("===" + Me.metadata['gettext-domain'] + "===>" + s);
 }
@@ -93,6 +93,7 @@ const Indicator = GObject.registerClass(
 						text = "*" + text.substr(1);
 					} else { //`ls` output
 						text = GLib.getenv('HOME') + "/*" + text;
+						//回收站里有同名的，也会失败。但又不能排除其他~/.*目录。
 					}
 					text = that.loc_file(text);
 					if (text) add_menu(text, isPRIMARY);

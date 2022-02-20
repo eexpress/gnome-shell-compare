@@ -8,7 +8,7 @@
 
 It basically reproduces the previous script. All kinds of incomplete file names selected by the mouse of the terminal can be found. When multiple files are found at the same time, silence fails. This option can be turned off.
 
-基本复刻了以前的脚本。终端的鼠标选择的各种残缺文件名都能找到。同时找到多个文件时，会静默失败。此选项能关闭。
+基本复刻了以前的脚本。终端的鼠标选择的各种残缺文件名都能找到。同时找到多个文件时，会静默失败。此选项能关闭。(回收站里有同名的文件，也会导致失败。)
 
 A context menu is added for more convenient opening of files selected from the terminal.
 
