@@ -4,6 +4,12 @@
 
 ---
 
+## Change Log
+
+It basically reproduces the previous script. All kinds of incomplete file names selected by the mouse of the terminal can be found. When multiple files are found at the same time, silence fails. This option can be turned off.
+
+基本复刻了以前的脚本。终端的鼠标选择的各种残缺文件名都能找到。同时找到多个文件时，会静默失败。此选项能关闭。
+
 A context menu is added for more convenient opening of files selected from the terminal.
 
 增加了一个上下文菜单，用于更方便的打开从终端选择的文件。
@@ -37,6 +43,10 @@ Add the hotkey `ctrl-o` to open the last file selected by the mouse. Partly repl
 
 ```
 ⭕ tree ~/.local/share/gnome-shell/extensions/compare@eexpss.gmail.com
+├── compare-open-symbolic.svg
 ├── extension.js
-└── metadata.json
+├── metadata.json
+└── schemas
+    ├── gschemas.compiled
+    └── org.gnome.shell.extensions.compare.gschema.xml
 ```
