@@ -19,6 +19,7 @@ function lg(s) {
 
 let clip0 = "";
 let clip1 = "";
+let [lazytext, lazystate] = [ "", false ]; //不弹窗时，临时保存现场。
 
 const Indicator = GObject.registerClass(
 	class Indicator extends PanelMenu.Button {
@@ -27,6 +28,9 @@ const Indicator = GObject.registerClass(
 			const that = this;
 
 			this.add_child(new St.Icon({ gicon : Gio.icon_new_for_string(Me.path + "/compare-open-symbolic.svg") }));
+			this.menu.connect('open-state-changed', (menu, open) => {
+				if (open && this.mauto.state == false && lazytext.length > 3) { judge(lazytext, lazystate); }
+			});
 
 			this.mauto = new PopupMenu.PopupSwitchMenuItem('', true);
 			this.mauto.label.clutter_text.set_markup(_('▶ Auto pop menu').bold());
@@ -66,13 +70,20 @@ const Indicator = GObject.registerClass(
 				this._clipboard.get_text(St.ClipboardType.CLIPBOARD, (clipboard, text) => {
 					if (text && text != clip0) { // new clip
 						clip0 = text;
-						judge(text, msame.state);
+						if (this.mauto.state)
+							judge(text, msame.state);
+						else
+							[lazytext, lazystate] = [ text.trim(), true ];
 					}
 				});
 				this._clipboard.get_text(St.ClipboardType.PRIMARY, (clipboard, text) => {
+					if (!text || text.length < 4) return; //文本太短的pass，避免鼠标频发触发选择。
 					if (text && text != clip1) { // new clip
 						clip1 = text.trim();
-						judge(text.trim(), true);
+						if (this.mauto.state)
+							judge(text.trim(), true);
+						else
+							[lazytext, lazystate] = [ text.trim(), true ];
 					}
 				});
 			});
@@ -87,6 +98,7 @@ const Indicator = GObject.registerClass(
 			// 大量使用 item0, item1 的函数，搬出init麻烦。所有 item0 都要加 this，包括init内。
 			// init 内函数，只好使用 that 调用 init 外部的函数。
 			function judge(text, isPRIMARY) {
+				[lazytext, lazystate] = [ "", false ];
 				// filt mess charactor, []()
 				if (!add_menu(text, isPRIMARY) && mloc.state) {
 					if (text.indexOf("./") == 0) { //`find` output
@@ -125,6 +137,7 @@ const Indicator = GObject.registerClass(
 			};
 
 			function markup() {
+
 				for (let i = 0; i < 2; i++) { // 强制循环刷新
 					const a = (i == 0) ? item0 : item1;
 					if (!a.file) {
@@ -133,7 +146,9 @@ const Indicator = GObject.registerClass(
 					} else {
 						const head = a.file.split("/");
 						const last = head.pop();
-						const pango = ((i + 1) + ": ").bold() + head.join("/") + "/" + last.bold().italics().fontcolor("#879CFF").replace(/font/g, "span");
+						let dir = head.join("/");
+						if (dir.length > 0) dir += "/";
+						const pango = ((i + 1) + ": ").bold() + dir + last.bold().italics().fontcolor("#879CFF").replace(/font/g, "span");
 						a.label.clutter_text.set_ellipsize(Pango.EllipsizeMode.MIDDLE);
 						a.label.clutter_text.set_markup(pango);
 					}
