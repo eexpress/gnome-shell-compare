@@ -27,9 +27,9 @@
 
 ▶ 使用locate强力查找文件：对于非完整路径的文件，将使用`locate`进行强力搜索，以便找到唯一确定的文件。（回收站的内容会干扰唯一性）
 
-▶ Compare two Dirs/Files below: When two files or directories are of the same mime-type, you can click the menu to compare.
+▶ Compare two Dirs/Files below: When two files or directories are of the same mime-type, you can click the menu to compare them with `meld`.
 
-▶ 比较文件或目录：当两个文件或目录类型相同时，可以点击菜单来比较。
+▶ 比较文件或目录：当两个文件或目录类型相同时，可以单击菜单调用`meld`进行比较。。
 
 ## Change Log
 
