@@ -4,40 +4,42 @@
 
 ---
 
+## Function introduction 功能介绍
+
+- File from CLIPBOARD: Only used for comparison. Usually copied in the file manager.
+- 剪贴板中的文件：仅用于比较。通常是在文件管理器中复制的。
+- File from PRIMARY: Can be used for comparison, can be clicked to open in menu, AND will create context menu. Usually selected with the mouse at the terminal.
+- 选择缓存中的文件：可用于比较，可以点击菜单项目打开，并将创建上下文菜单。通常是在终端中用鼠标选择的。
+- Ctrl-O hotkey: Open last file.
+- Ctrl-O热键：打开最后一个文件。
+
+## Menu item introduction 菜单项目介绍
+
+▶ Auto pop menu:  When a file is detected, the menu opens automatically. If unchecked, it will enter the lazy mode, and the last selected or copied text will not be processed until the menu is opened manually.
+
+▶ 自动弹出菜单：当检测到文件时，菜单会自动打开。如果取消选中，将进入延迟模式，则手动打开菜单后，才会处理最后选定或复制的文本。
+
+▶ CLIPBOARD act as PRIMARY: File from CLIPBOARD will be treated as file from PRIMARY.
+
+▶ 把剪贴板当成选择缓存：剪贴板中的文件将被视为选择缓存中的文件对待。
+
+▶ Strong find file using locate: For a file that is not a full path, `locate` will be used to perform a strong search until the only identified file is found. (Files in Trash will interfere with the unique search)
+
+▶ 使用locate强力查找文件：对于非完整路径的文件，将使用`locate`进行强力搜索，以便找到唯一确定的文件。（回收站的内容会干扰唯一性）
+
+▶ Compare two Dirs/Files below: When two files or directories are of the same mime-type, you can click the menu to compare.
+
+▶ 比较文件或目录：当两个文件或目录类型相同时，可以点击菜单来比较。
+
 ## Change Log
 
 It basically reproduces the previous script. All kinds of incomplete file names selected by the mouse of the terminal can be found. When multiple files are found at the same time, silence fails. This option can be turned off.
 
 基本复刻了以前的脚本。终端的鼠标选择的各种残缺文件名都能找到。同时找到多个文件时，会静默失败。此选项能关闭。(回收站里有同名的文件，也会导致失败。)
 
-A context menu is added for more convenient opening of files selected from the terminal.
-
-增加了一个上下文菜单，用于更方便的打开从终端选择的文件。
-
-Copy two Dirs/Files names from anywhere such as `nautilus` or `gnome-terminal`, and then compare them.  Dirs/Files copied to the `CLIPBOARD` can only be used for comparison. Dirs/Files selected to the `PRIMARY` with mouse can be opened by click the menu item.
-
-从 `nautilus`或 `gnome terminal`等任意位置复制两个文件/目录名，然后进行比较。
-复制到 `CLIPBOARD`剪贴板的文件/目录，只能用于比较。鼠标选中到 `PRIMARY`的文件，还可以点击菜单打开。
-
 In the terminal, the absolute path and the relative path of the home directory can be recognized. Double click the mouse to select. Suitable for `locate` and `find ~` commands.
 
 在终端中，绝对路径和家目录的相对路径，都能识别。双击鼠标就能选中。适合于 `locate` 和 `find ~` 命令。
-
-In `nautilus`, press ctrl-c or copy in the context-menu.
-
-在 `nautilus`中，按ctrl-c或在上下文菜单，进行复制。
-
-Only one file or directory can be copied each time, otherwise the copy is invalid.
-
-每次只能复制一个文件或目录，否则复制无效。
-
-Meld must be installed.
-
-需要安装了 meld 软件。
-
-Add the hotkey `ctrl-o` to open the last file selected by the mouse. Partly replace the previous script `o`.
-
-增加热键 `Ctrl-O` 打开最后一个鼠标选中的文件。部分代替之前的脚本 `o`。
 
 ![](screenshot.png)
 
