@@ -23,23 +23,13 @@
 
 ▶ 把剪贴板当成选择缓存：剪贴板中的文件将被视为选择缓存中的文件对待。
 
-▶ Strong find file using locate: For a file that is not a full path, `locate` will be used to perform a strong search until the only identified file is found. (Files in Trash will interfere with the unique search)
+▶ Strong find file using locate: For a file that is not a full path, `locate` will be used to perform a strong search until the only identified file is found. All kinds of incomplete file names selected by the mouse in the terminal can be found basically. All hidden directories will be skipped.
 
-▶ 使用locate强力查找文件：对于非完整路径的文件，将使用`locate`进行强力搜索，以便找到唯一确定的文件。（回收站的内容会干扰唯一性）
+▶ 使用locate强力查找文件：对于非完整路径的文件，将使用`locate`进行强力搜索，以便找到唯一确定的文件。终端下鼠标选择的各种残缺文件名基本都能找到。会跳过所有的隐藏目录。
 
 ▶ Compare two Dirs/Files below: When two files or directories are of the same mime-type, you can click the menu to compare them with `meld`.
 
 ▶ 比较文件或目录：当两个文件或目录类型相同时，可以单击菜单调用`meld`进行比较。。
-
-## Change Log
-
-It basically reproduces the previous script. All kinds of incomplete file names selected by the mouse of the terminal can be found. When multiple files are found at the same time, silence fails. This option can be turned off.
-
-基本复刻了以前的脚本。终端的鼠标选择的各种残缺文件名都能找到。同时找到多个文件时，会静默失败。此选项能关闭。(回收站里有同名的文件，也会导致失败。)
-
-In the terminal, the absolute path and the relative path of the home directory can be recognized. Double click the mouse to select. Suitable for `locate` and `find ~` commands.
-
-在终端中，绝对路径和家目录的相对路径，都能识别。双击鼠标就能选中。适合于 `locate` 和 `find ~` 命令。
 
 ![](screenshot.png)
 

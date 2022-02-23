@@ -101,18 +101,15 @@ const Indicator = GObject.registerClass(
 				[lazytext, lazystate] = [ "", false ];
 				// filt mess charactor, []()
 				if (!add_menu(text, isPRIMARY) && mloc.state) {
-					if (text.indexOf("./") == 0) { //`find` output
-						text = "*" + text.substr(1);
-					} else { //`ls` output
-						text = GLib.getenv('HOME') + "/*" + text;
-						//回收站里有同名的，也会失败。但又不能排除其他~/.*目录。
-					}
 					text = that.loc_file(text);
 					if (text) add_menu(text, isPRIMARY);
 				}
 			}
 
 			function add_menu(text, isPRIMARY) {
+				if (text.indexOf("~/") == 0) {
+					text = GLib.getenv('HOME') + text.substr(1);
+				}
 				if (GLib.file_test(text, GLib.FileTest.IS_REGULAR | GLib.FileTest.IS_DIR)) {
 					//~ 当前目录是~，所以带./前缀的文件，都认为是~/的文件。
 					const contentType = that.get_content_type(text);
@@ -157,11 +154,22 @@ const Indicator = GObject.registerClass(
 		}
 
 		loc_file(str) { //找到两个的，就认为无效。
-			let ret = GLib.spawn_command_line_sync(`locate -n 2 -w ${str}`);
+			if (str.charAt(str.length - 1) == '/') str = str.substr(0, str.length - 1);
+			if (str.indexOf("/") > 0) { //`find` output
+				// delete prefix '.'
+				str = "*" + str.substr(str.indexOf(".") == 0 ? 1 : 0);
+			} else { //`ls` output
+				str = "*/" + str;
+			}
+
+			let ret = GLib.spawn_command_line_sync(`locate -n 10 -w ${str}`);
 			if ((ret[0]) && (ret[3] == 0)) { // ok, exit_status = 0
 				const lf = ByteArray.toString(ret[1]).split("\n");
-				if (lf[1] == "")
-					return lf[0];
+				lg(lf);
+				const lff = lf.filter(item => item.indexOf('/.') === -1 && item);
+				lg(lff);
+				if (lff.length == 1)
+					return lff[0];
 				else
 					return null;
 			}
