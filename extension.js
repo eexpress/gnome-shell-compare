@@ -68,7 +68,9 @@ const Indicator = GObject.registerClass(
 			this._clipboard = St.Clipboard.get_default();
 			this._ownerChangedId = this._selection.connect('owner-changed', () => {
 				this._clipboard.get_text(St.ClipboardType.CLIPBOARD, (clipboard, text) => {
-					if (text && text != clip0) { // new clip
+					if (!text || text.length < 4) return;
+					if (text != clip0) { // new clip
+						if (text.indexOf("\n") > 0) return;
 						clip0 = text;
 						if (this.mauto.state)
 							judge(text, msame.state);
@@ -78,8 +80,10 @@ const Indicator = GObject.registerClass(
 				});
 				this._clipboard.get_text(St.ClipboardType.PRIMARY, (clipboard, text) => {
 					if (!text || text.length < 4) return; //文本太短的pass，避免鼠标频发触发选择。
-					if (text && text != clip1) { // new clip
-						clip1 = text.trim();
+					if (text != clip1) { // new clip
+						text = text.trim();
+						if (text.indexOf("\n") > 0) return;
+						clip1 = text;
 						if (this.mauto.state)
 							judge(text.trim(), true);
 						else
@@ -108,7 +112,7 @@ const Indicator = GObject.registerClass(
 
 			function add_menu(text, isPRIMARY) {
 				if (text.indexOf("~/") == 0) {
-					text = GLib.getenv('HOME') + text.substr(1);
+					text = GLib.get_home_dir() + text.substr(1);
 				}
 				if (GLib.file_test(text, GLib.FileTest.IS_REGULAR | GLib.FileTest.IS_DIR)) {
 					//~ 当前目录是~，所以带./前缀的文件，都认为是~/的文件。
@@ -162,7 +166,7 @@ const Indicator = GObject.registerClass(
 				str = "*/" + str;
 			}
 
-			let ret = GLib.spawn_command_line_sync(`locate -n 10 -w ${str}`);
+			let ret = GLib.spawn_command_line_sync(`locate -n 10 -w '${str}'`);
 			if ((ret[0]) && (ret[3] == 0)) { // ok, exit_status = 0
 				const lf = ByteArray.toString(ret[1]).split("\n");
 				lg(lf);
