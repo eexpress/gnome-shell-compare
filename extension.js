@@ -27,7 +27,7 @@ const Indicator = GObject.registerClass(
 			super._init(0.0, _(Me.metadata['name']));
 			const that = this;
 
-			this.add_child(new St.Icon({ gicon : Gio.icon_new_for_string(Me.path + "/compare-open-symbolic.svg") }));
+			this.add_child(new St.Icon({ gicon : Gio.icon_new_for_string(Me.path + "/compare-open-symbolic.svg"), style_class : 'system-status-icon' }));
 			this.menu.connect('open-state-changed', (menu, open) => {
 				if (open && this.mauto.state == false && lazytext.length > 3) { judge(lazytext, lazystate); }
 			});
