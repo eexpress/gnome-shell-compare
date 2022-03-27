@@ -21,7 +21,6 @@ function lg(s) {
 let clip0 = "";
 let clip1 = "";
 let [lazytext, lazystate] = [ "", false ]; //不弹窗时，临时保存现场。
-const settings = ExtensionUtils.getSettings("org.gnome.shell.extensions." + _domain);
 
 const Indicator = GObject.registerClass(
 	class Indicator extends PanelMenu.Button {
@@ -29,18 +28,20 @@ const Indicator = GObject.registerClass(
 			super._init(0.0, _(Me.metadata['name']));
 			const that = this;
 
+			this.settings = ExtensionUtils.getSettings("org.gnome.shell.extensions." + _domain);
+
 			this.add_child(new St.Icon({ gicon : Gio.icon_new_for_string(Me.path + "/compare-open-symbolic.svg"), style_class : 'system-status-icon' }));
 			this.menu.connect('open-state-changed', (menu, open) => {
 				if (open && this.mauto.state == false && lazytext.length > 3) { judge(lazytext, lazystate); }
 			});
 
-			this.mauto = new PopupMenu.PopupSwitchMenuItem('', settings.get_boolean('auto-pop'));
+			this.mauto = new PopupMenu.PopupSwitchMenuItem('', this.settings.get_boolean('auto-pop'));
 			this.mauto.label.clutter_text.set_markup(_('▶ Auto pop menu').bold());
 			this.menu.addMenuItem(this.mauto);
-			this.msame = new PopupMenu.PopupSwitchMenuItem('', settings.get_boolean('same-clip'));
+			this.msame = new PopupMenu.PopupSwitchMenuItem('', this.settings.get_boolean('same-clip'));
 			this.msame.label.clutter_text.set_markup(_('▶ CLIPBOARD act as PRIMARY').bold());
 			this.menu.addMenuItem(this.msame);
-			this.mloc = new PopupMenu.PopupSwitchMenuItem('', settings.get_boolean('use-locate'));
+			this.mloc = new PopupMenu.PopupSwitchMenuItem('', this.settings.get_boolean('use-locate'));
 			this.mloc.label.clutter_text.set_markup(_('▶ Strong find file using locate').bold());
 			this.menu.addMenuItem(this.mloc);
 
@@ -228,9 +229,9 @@ const Indicator = GObject.registerClass(
 		}
 
 		destroy() {
-			settings.set_boolean('auto-pop', this.mauto.state);
-			settings.set_boolean('same-clip', this.msame.state);
-			settings.set_boolean('use-locate', this.mloc.state);
+			this.settings.set_boolean('auto-pop', this.mauto.state);
+			this.settings.set_boolean('same-clip', this.msame.state);
+			this.settings.set_boolean('use-locate', this.mloc.state);
 			this._selection.disconnect(this._ownerChangedId);
 			if (this._actor) this._actor.destroy();
 			super.destroy();
