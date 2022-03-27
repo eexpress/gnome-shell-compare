@@ -8,18 +8,20 @@ const PanelMenu = imports.ui.panelMenu;
 const PopupMenu = imports.ui.popupMenu;
 const ByteArray = imports.byteArray;
 
-const Gettext = imports.gettext.domain(Me.metadata['gettext-domain']);
+const _domain = Me.metadata['gettext-domain'];	//"compare"
+const Gettext = imports.gettext.domain(_domain);
 const _ = Gettext.gettext;
 
 const debug = false;
 //~ const debug = true;
 function lg(s) {
-	if (debug) log("===" + Me.metadata['gettext-domain'] + "===>" + s);
+	if (debug) log("===" + _domain + "===>" + s);
 }
 
 let clip0 = "";
 let clip1 = "";
 let [lazytext, lazystate] = [ "", false ]; //不弹窗时，临时保存现场。
+const settings = ExtensionUtils.getSettings("org.gnome.shell.extensions." + _domain);
 
 const Indicator = GObject.registerClass(
 	class Indicator extends PanelMenu.Button {
@@ -32,15 +34,15 @@ const Indicator = GObject.registerClass(
 				if (open && this.mauto.state == false && lazytext.length > 3) { judge(lazytext, lazystate); }
 			});
 
-			this.mauto = new PopupMenu.PopupSwitchMenuItem('', true);
+			this.mauto = new PopupMenu.PopupSwitchMenuItem('', settings.get_boolean('auto-pop'));
 			this.mauto.label.clutter_text.set_markup(_('▶ Auto pop menu').bold());
 			this.menu.addMenuItem(this.mauto);
-			const msame = new PopupMenu.PopupSwitchMenuItem('', false);
-			msame.label.clutter_text.set_markup(_('▶ CLIPBOARD act as PRIMARY').bold());
-			this.menu.addMenuItem(msame);
-			const mloc = new PopupMenu.PopupSwitchMenuItem('', false);
-			mloc.label.clutter_text.set_markup(_('▶ Strong find file using locate').bold());
-			this.menu.addMenuItem(mloc);
+			this.msame = new PopupMenu.PopupSwitchMenuItem('', settings.get_boolean('same-clip'));
+			this.msame.label.clutter_text.set_markup(_('▶ CLIPBOARD act as PRIMARY').bold());
+			this.menu.addMenuItem(this.msame);
+			this.mloc = new PopupMenu.PopupSwitchMenuItem('', settings.get_boolean('use-locate'));
+			this.mloc.label.clutter_text.set_markup(_('▶ Strong find file using locate').bold());
+			this.menu.addMenuItem(this.mloc);
 
 			const item = new PopupMenu.PopupMenuItem('');
 			item.label.clutter_text.set_markup(_('▶ Compare two Dirs/Files below.').bold());
@@ -73,7 +75,7 @@ const Indicator = GObject.registerClass(
 						if (text.indexOf("\n") > 0) return;
 						clip0 = text;
 						if (this.mauto.state)
-							judge(text, msame.state);
+							judge(text, this.msame.state);
 						else
 							[lazytext, lazystate] = [ text.trim(), true ];
 					}
@@ -104,7 +106,7 @@ const Indicator = GObject.registerClass(
 			function judge(text, isPRIMARY) {
 				[lazytext, lazystate] = [ "", false ];
 				// filt mess charactor, []()
-				if (!add_menu(text, isPRIMARY) && mloc.state) {
+				if (!add_menu(text, isPRIMARY) && this.mloc.state) {
 					text = that.loc_file(text);
 					if (text) add_menu(text, isPRIMARY);
 				}
@@ -226,6 +228,9 @@ const Indicator = GObject.registerClass(
 		}
 
 		destroy() {
+			settings.set_boolean('auto-pop', this.mauto.state);
+			settings.set_boolean('same-clip', this.msame.state);
+			settings.set_boolean('use-locate', this.mloc.state);
 			this._selection.disconnect(this._ownerChangedId);
 			if (this._actor) this._actor.destroy();
 			super.destroy();

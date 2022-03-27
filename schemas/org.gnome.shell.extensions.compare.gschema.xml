@@ -12,6 +12,21 @@
       </description>
     </key>
 
+    <key name="auto-pop" type="b">
+      <default>true</default>
+      <summary>Auto pop menu</summary>
+    </key>
+
+    <key name="same-clip" type="b">
+      <default>false</default>
+      <summary>CLIPBOARD act as PRIMARY</summary>
+    </key>
+
+    <key name="use-locate" type="b">
+      <default>false</default>
+      <summary>Strong find file using locate</summary>
+    </key>
+
   </schema>
 
 </schemalist>
