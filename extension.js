@@ -28,7 +28,8 @@ const Indicator = GObject.registerClass(
 			super._init(0.0, _(Me.metadata['name']));
 			const that = this;
 
-			this.settings = ExtensionUtils.getSettings("org.gnome.shell.extensions." + _domain);
+			//~ this.settings = ExtensionUtils.getSettings("org.gnome.shell.extensions." + _domain);
+			this.settings = ExtensionUtils.getSettings();
 
 			this.add_child(new St.Icon({ gicon : Gio.icon_new_for_string(Me.path + "/compare-open-symbolic.svg"), style_class : 'system-status-icon' }));
 			this.menu.connect('open-state-changed', (menu, open) => {
